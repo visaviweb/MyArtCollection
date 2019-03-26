@@ -1,5 +1,5 @@
 {
-    "name": "My Art Collection",
+    "name": "Visavi/MyArtCollection",
     "description": "",
     "type": "project",
     "license": "proprietary",
@@ -7,6 +7,7 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "enyo/dropzone": "^5.5",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",

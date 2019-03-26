@@ -47,6 +47,9 @@
             "config/packages/dev/easy_log_handler.yaml"
         ]
     },
+    "enyo/dropzone": {
+        "version": "v5.5.0"
+    },
     "facebook/webdriver": {
         "version": "1.6.0"
     },
