@@ -2,6 +2,7 @@
 
 {% block body -%}
 {% for file in files %}
+<img src="{{ uploaded_asset(file.filename) }}" alt="" style="height:200px;width:auto;padding:10px;>
     {{ file }}<br>
 {% endfor %}
  {% endblock %}

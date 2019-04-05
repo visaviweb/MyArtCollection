@@ -7,11 +7,12 @@ use Symfony\Component\Finder\Finder;
 
 class UploaderHelper
 {
-    private $uploadPath;
-
-    public function __construct(string $uploadPath)
+    private $uploadBasePath;
+    const UPLOAD_DIR = 'upload';
+    
+    public function __construct(string $uploadBasePath)
     {
-        $this->uploadPath = $uploadPath;
+        $this->uploadBasePath = $uploadBasePath;
     }
     
     public function moveUploadedImage(UploadedFile $uploadedFile): string
@@ -19,21 +20,31 @@ class UploaderHelper
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $newFilename = $originalFilename.'_U_'.uniqid().'_.'.$uploadedFile->guessExtension();
         $uploadedFile->move(
-            $this->uploadPath,
+            $this->getUploadPath(),
             $newFilename
         );
         return $newFilename;
     }
 
+    public function getPublicPath(string $filename) : string
+    {
+        return self::UPLOAD_DIR.'/'.$filename;
+    }
+
     public function getUploadedFilesList()
     {
         $finder = new Finder();
-        return $finder->files()->in($this->uploadPath);
+        return $finder->files()->in($this->getUploadPath());
     }
 
-    public function hasUnregisteredImages()
+    public function hasUnregisteredImages() : boolean
     {
         $finder = new Finder();
-        return \count($finder->files()->in($this->uploadPath)) > 0;
+        return \count($finder->files()->in($this->getUploadPath())) > 0;
+    }
+
+    private function getUploadPath() : string
+    {
+        return $this->uploadBasePath.'/'.self::UPLOAD_DIR;
     }
 }
