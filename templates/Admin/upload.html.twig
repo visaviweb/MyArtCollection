@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+{{ parent() }}
+{% endblock %}       
+ 
+{% block body -%}
+ <h1>Upload</h1>
+ {% if has_unregistered_images %}
+<a href="{#{ path('setupload') }#}">You have unregistered uploaded images!</a>
+{% endif %}
+
+{{ form(form) }}
+ {% endblock %}
