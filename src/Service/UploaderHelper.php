@@ -4,15 +4,18 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Asset\Context\RequestStackContext;
 
 class UploaderHelper
 {
     private $uploadBasePath;
+    private $requestStackContext;
     const UPLOAD_DIR = 'upload';
     
-    public function __construct(string $uploadBasePath)
+    public function __construct(string $uploadBasePath, RequestStackContext $requestStackContext)
     {
         $this->uploadBasePath = $uploadBasePath;
+        $this->requestStackContext = $requestStackContext;
     }
     
     public function moveUploadedImage(UploadedFile $uploadedFile): string
@@ -28,7 +31,8 @@ class UploaderHelper
 
     public function getPublicPath(string $filename) : string
     {
-        return self::UPLOAD_DIR.'/'.$filename;
+        return $this->requestStackContext
+            ->getBasePath().'/'.self::UPLOAD_DIR.'/'.$filename;
     }
 
     public function getUploadedFilesList()
