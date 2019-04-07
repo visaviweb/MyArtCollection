@@ -2,7 +2,9 @@
 
 {% block body -%}
 {% for file in files %}
-<img src="{{ uploaded_asset(file.filename) | imagine_filter('full') }}" alt="" style="padding:10px;">
-   <br> {{ file }}<br>
+{{ dump(file)}}
+<a href="{{ uploaded_asset(file.basename) }}">
+<img src="{{ file.basename | imagine_filter('full') }}" alt="" style="padding:10px;"></a>
+   <br> {{ file.basename }}<br>
 {% endfor %}
  {% endblock %}
