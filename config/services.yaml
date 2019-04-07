@@ -5,8 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    upload_dir_name: 'upload'
-    upload_base_url: '%env(SITE_BASE_URL)%/%upload_dir_name%'
+    upload_base_url: '%env(AWS_S3_BASE_URL)%/%env(AWS_S3_BUCKET)%'
 
 services:
     # default configuration for services in *this* file
@@ -31,3 +30,12 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     Symfony\Component\Asset\Context\RequestStackContext: '@assets.context'
+
+    Aws\S3\S3Client:
+        arguments:
+            -
+                version: '2006-03-01' # or 'latest'
+                region: '%env(AWS_S3_REGION)%'
+                credentials:
+                    key: '%env(AWS_S3_KEY)%'
+                    secret: '%env(AWS_S3_SECRET)%'
