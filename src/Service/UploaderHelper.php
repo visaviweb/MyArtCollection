@@ -36,9 +36,8 @@ class UploaderHelper
             fclose($stream);
         }
         if ($result === false) {
-            throw new \Exception(sprintf('Could not write uploaded file "%s"', $newFilename));
+            throw new \Exception(sprintf('Could not save uploaded file "%s"', $newFilename));
         }
-        
         return $newFilename;
     }
 

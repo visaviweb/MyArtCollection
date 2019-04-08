@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
 {{ parent() }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dropzone@5.5.1/dist/dropzone.css" integrity="sha256-0Z6mOrdLEtgqvj7tidYQnCYWG3G2GAIpatAWKhDx+VM=" crossorigin="anonymous">
 {% endblock %}       
  
 {% block body -%}
@@ -8,6 +9,13 @@
  {% if has_unregistered_images %}
 <a href="{#{ path('setupload') }#}">You have unregistered uploaded images!</a>
 {% endif %}
+{{ form_start(form, {'attr': {'class': 'dropzone'}}) }}
+{{ form_rest(form) }}
+{{ form_end(form) }}
 
-{{ form(form) }}
+ {% endblock %}
+ {% block javascripts %}
+ {{ parent() }}
+<script src="https://cdn.jsdelivr.net/npm/dropzone@5.5.1/dist/dropzone.js" integrity="sha256-awEOL+kdrMJU/HUksRrTVHc6GA25FvDEIJ4KaEsFfG4=" crossorigin="anonymous"></script>
+<script src="{{ asset('js/upload.js')}}"></script>
  {% endblock %}
