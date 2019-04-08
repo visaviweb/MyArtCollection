@@ -12,7 +12,7 @@ liip_imagine:
       flysystem:
         filesystem_service: oneup_flysystem.upload_filesystem_filesystem
         cache_prefix: media/cache
-        root_url: '%upload_base_url%'
+        root_url: '%asset_base_url%'
   cache: flysystem_resolver
   data_loader: flysystem_loader
   filter_sets:
@@ -23,7 +23,7 @@ liip_imagine:
           size: [200, 4000]
           mode: inset
     full:
-      quality: 70
+      quality: 80
       filters:
         thumbnail: 
           size: [850, 850]

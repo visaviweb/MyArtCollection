@@ -5,7 +5,8 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
-    upload_base_url: '%env(AWS_S3_BASE_URL)%/%env(AWS_S3_BUCKET)%'
+    upload_dir: 'upload'
+    asset_base_url: '%env(AWS_S3_BASE_URL)%/%env(AWS_S3_BUCKET)%'
 
 services:
     # default configuration for services in *this* file
@@ -14,7 +15,8 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $uploadFilesystem: '@oneup_flysystem.upload_filesystem_filesystem'
-            $uploadedAssetsBaseUrl: '%upload_base_url%'
+            $uploadedAssetsBaseUrl: '%asset_base_url%'
+            $uploadDirectory: '%upload_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

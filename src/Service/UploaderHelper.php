@@ -12,12 +12,14 @@ class UploaderHelper
     private $filesystem;
     private $requestStackContext;
     private $publicAssetBaseUrl;
+    private $uploadDir;
     
-    public function __construct(FilesystemInterface $uploadFilesystem, RequestStackContext $requestStackContext, string $uploadedAssetsBaseUrl )
+    public function __construct(FilesystemInterface $uploadFilesystem, RequestStackContext $requestStackContext, string $uploadDirectory, string $uploadedAssetsBaseUrl )
     {
         $this->filesystem = $uploadFilesystem;
         $this->requestStackContext = $requestStackContext;
         $this->publicAssetBaseUrl = $uploadedAssetsBaseUrl;
+        $this->uploadDir = $uploadDirectory;
     }
     
     public function moveUploadedImage(UploadedFile $uploadedFile): string
@@ -26,8 +28,9 @@ class UploaderHelper
         $newFilename = $originalFilename.'_U_'.uniqid().'_.'.$uploadedFile->guessExtension();
         $stream = fopen($uploadedFile->getPathname(), 'r');
         $result = $this->filesystem->writeStream(
-            $newFilename,
-            $stream
+            $this->uploadDir.'/'.$newFilename,
+            $stream,
+            ['visibility' => 'public']
         );
         if (is_resource($stream)) {
             fclose($stream);
@@ -41,18 +44,22 @@ class UploaderHelper
 
     public function getPublicPath(string $filename) : string
     {
+        $fullPath = $this->publicAssetBaseUrl.'/'.$this->uploadDir.'/'.$filename;
+        // is it adsolute url?
+        if (strpos($fullPath, '://') !== false) {
+            return $fullPath;
+        }
         return $this->requestStackContext
-            ->getBasePath().$this->publicAssetBaseUrl.'/'.$filename;
+            ->getBasePath().$fullPath;
     }
 
     public function getUploadedFilesList()
     {
-        
-        return $this->filesystem->listContents('', false);
+        return $this->filesystem->listContents($this->uploadDir, false);
     }
 
     public function hasUnregisteredImages() : bool
     {
-        return \count($this->filesystem->listContents('', false)) > 0;
+        return \count($this->filesystem->listContents($this->uploadDir, false)) > 0;
     }
 }
