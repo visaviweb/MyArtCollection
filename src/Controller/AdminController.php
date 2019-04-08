@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Service\UploaderHelper;
 
 /**
- * Default controller.
+ * Admin controller.
  *
  * @Route("/admin")
  */
@@ -50,7 +50,8 @@ class AdminController extends AbstractController
                     'message' => 'Please select a file to upload'
                 ]),
                 new Image([
-                    'maxSize' => '20M'
+                    'maxSize' => '20M',
+                    'message' => 'file size exceeds maximum allowed (20M)'
                 ])
             ]
         );
@@ -65,4 +66,7 @@ class AdminController extends AbstractController
         return $this->json($filename, 201);
     }
 
+    public function registerAction()
+    {
+    }
 }

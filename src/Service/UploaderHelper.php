@@ -2,10 +2,9 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Asset\Context\RequestStackContext;
 use League\Flysystem\FilesystemInterface;
+use Symfony\Component\Asset\Context\RequestStackContext;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploaderHelper
 {
@@ -13,22 +12,22 @@ class UploaderHelper
     private $requestStackContext;
     private $publicAssetBaseUrl;
     private $uploadDir;
-    
-    public function __construct(FilesystemInterface $uploadFilesystem, RequestStackContext $requestStackContext, string $uploadDirectory, string $uploadedAssetsBaseUrl )
+
+    public function __construct(FilesystemInterface $uploadFilesystem, RequestStackContext $requestStackContext, string $uploadDirectory, string $uploadedAssetsBaseUrl)
     {
         $this->filesystem = $uploadFilesystem;
         $this->requestStackContext = $requestStackContext;
         $this->publicAssetBaseUrl = $uploadedAssetsBaseUrl;
         $this->uploadDir = $uploadDirectory;
     }
-    
+
     public function moveUploadedImage(UploadedFile $uploadedFile): string
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $newFilename = $originalFilename.'_U_'.uniqid().'_.'.$uploadedFile->guessExtension();
+        $newFilename = $this->sanitizeName($originalFilename . '_U_' . uniqid() . '_.' . $uploadedFile->guessExtension());
         $stream = fopen($uploadedFile->getPathname(), 'r');
         $result = $this->filesystem->writeStream(
-            $this->uploadDir.'/'.$newFilename,
+            $this->uploadDir . '/' . $newFilename,
             $stream,
             ['visibility' => 'public']
         );
@@ -41,15 +40,15 @@ class UploaderHelper
         return $newFilename;
     }
 
-    public function getPublicPath(string $filename) : string
+    public function getPublicPath(string $filename): string
     {
-        $fullPath = $this->publicAssetBaseUrl.'/'.$this->uploadDir.'/'.$filename;
+        $fullPath = $this->publicAssetBaseUrl . '/' . $this->uploadDir . '/' . $filename;
         // is it adsolute url?
         if (strpos($fullPath, '://') !== false) {
             return $fullPath;
         }
         return $this->requestStackContext
-            ->getBasePath().$fullPath;
+            ->getBasePath() . $fullPath;
     }
 
     public function getUploadedFilesList()
@@ -57,8 +56,14 @@ class UploaderHelper
         return $this->filesystem->listContents($this->uploadDir, false);
     }
 
-    public function hasUnregisteredImages() : bool
+    public function hasUnregisteredImages(): bool
     {
         return \count($this->filesystem->listContents($this->uploadDir, false)) > 0;
+    }
+
+    public function sanitizeName(string $filename): string
+    {
+        $replace = array(":", "/", "?", "#", "[", "]", "@");
+        return str_replace($replace, '-', $filename);
     }
 }
