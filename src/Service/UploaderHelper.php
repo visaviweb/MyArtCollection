@@ -10,14 +10,14 @@ class UploaderHelper
 {
     private $filesystem;
     private $requestStackContext;
-    private $publicAssetBaseUrl;
+    private $uploadedAssetsBaseUrl;
     private $uploadDir;
 
     public function __construct(FilesystemInterface $uploadFilesystem, RequestStackContext $requestStackContext, string $uploadDirectory, string $uploadedAssetsBaseUrl)
     {
         $this->filesystem = $uploadFilesystem;
         $this->requestStackContext = $requestStackContext;
-        $this->publicAssetBaseUrl = $uploadedAssetsBaseUrl;
+        $this->uploadedAssetsBaseUrl = $uploadedAssetsBaseUrl;
         $this->uploadDir = $uploadDirectory;
     }
 
@@ -42,7 +42,7 @@ class UploaderHelper
 
     public function getPublicPath(string $filename): string
     {
-        $fullPath = $this->publicAssetBaseUrl . '/' . $this->uploadDir . '/' . $filename;
+        $fullPath = $this->uploadedAssetsBaseUrl . '/' . $this->uploadDir . '/' . $filename;
         // is it adsolute url?
         if (strpos($fullPath, '://') !== false) {
             return $fullPath;
@@ -63,7 +63,8 @@ class UploaderHelper
 
     public function sanitizeName(string $filename): string
     {
-        $replace = array(":", "/", "?", "#", "[", "]", "@");
-        return str_replace($replace, '-', $filename);
+        $replace = array(":", "/", "?", "#", "[", "]", "@", '%');
+        $with = array('-', '-', '-', '-', '(', ')', '-', '-');
+        return str_replace($replace, $with, $filename);
     }
 }
