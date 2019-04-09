@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block body -%}
+<div class="row">
+<div class="col-12">
+<h3>{{ image.filename}}</h3>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-4">
+<img src="{{ image_url }}" alt="" style="max-width:100%;">
+</div>
+<div class="col-sm-8">
+{{ form(form)}}
+</div>
+</div>
+ {% endblock %}
