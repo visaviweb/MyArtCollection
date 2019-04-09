@@ -18,7 +18,8 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('uploaded_asset', [$this, 'getUploadedAssetPath'])
+            new TwigFunction('uploaded_asset', [$this, 'getUploadedAssetPath']),
+            new TwigFunction('archived_asset', [$this, 'getArchivedAssetPath'])
         ];
     }
     
@@ -29,11 +30,17 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
             ->getPublicPath($path);
     }
 
+    public function getArchivedAssetPath(string $path): string
+    {
+        return $this->container
+            ->get(UploaderHelper::class)
+            ->getArchivedPublicPath($path);
+    }
+
     public static function getSubscribedServices()
     {
         return [
             UploaderHelper::class,
         ];
     }
-
 }

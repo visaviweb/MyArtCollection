@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body -%}
-{% for file in files %}
-{{ dump(file)}}
-<a href="{{ uploaded_asset(file.basename) }}">
-<img src="{{ file.path | imagine_filter('full') }}" alt="" style="padding:10px;"></a>
-   <br> {{ file.path }}<br>
+<p><a href="{{ path('upload') }}">Upload!</a></p>
+{% for img in images %}
+<a href="{{ archived_asset(img.path) }}">
+<img src="{{ img.path | imagine_filter('miniature') }}" alt="" style="float:left;margin:15px 15px 0;">
+</a>
 {% endfor %}
- {% endblock %}
+{% endblock %}

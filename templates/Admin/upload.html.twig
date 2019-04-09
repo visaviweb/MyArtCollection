@@ -7,7 +7,7 @@
 {% block body -%}
  <h1>Upload</h1>
  {% if has_unregistered_images %}
-<a href="{#{ path('setupload') }#}">You have unregistered uploaded images!</a>
+<a href="{{ path('register') }}">You have unregistered uploaded images!</a>
 {% endif %}
 {{ form_start(form, {'attr': {'class': 'dropzone'}}) }}
 {{ form_rest(form) }}

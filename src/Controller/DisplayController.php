@@ -24,6 +24,6 @@ class DisplayController extends AbstractController
      */
     public function indexAction(Request $request, UploaderHelper $uploaderHelper)
     {
-        return array('files' => $uploaderHelper->getUploadedFilesList());
+        return array('images' => $uploaderHelper->getAllImages());
     }
 }
