@@ -1,5 +1,9 @@
 # Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
 oneup_flysystem:
+    cache: 
+        psr6_app_cache:
+            psr6: 
+                service: cache.flysystem.psr6
     adapters:
         upload_adapter:
             awss3v3:
@@ -8,4 +12,8 @@ oneup_flysystem:
     filesystems:
         upload_filesystem:
             adapter: upload_adapter
+            # alias: League\Flysystem\Filesystem
+        cached_upload_filesystem:
+            adapter: upload_adapter
+            cache: psr6_app_cache
             # alias: League\Flysystem\Filesystem

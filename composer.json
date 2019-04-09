@@ -10,6 +10,7 @@
         "aws/aws-sdk-php": "^3.91",
         "enyo/dropzone": "^5.5",
         "league/flysystem-aws-s3-v3": "^1.0",
+        "league/flysystem-cached-adapter": "^1.0",
         "liip/imagine-bundle": "^2.1",
         "oneup/flysystem-bundle": "^3.0",
         "sensio/framework-extra-bundle": "^5.1",

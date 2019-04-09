@@ -15,5 +15,7 @@ framework:
         #app: cache.adapter.apcu
 
         # Namespaced pools use the above "app" backend by default
-        #pools:
-            #my.dedicated.cache: ~
+        pools:
+            cache.flysystem.psr6:  
+                adapter: cache.app
+                #my.dedicated.cache: ~
