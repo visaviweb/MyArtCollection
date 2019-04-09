@@ -6,6 +6,7 @@
 parameters:
     locale: 'en'
     upload_dir: 'upload'
+    artist_dir: 'art'
     asset_base_url: '%env(AWS_S3_BASE_URL)%/%env(AWS_S3_BUCKET)%'
 
 services:
@@ -17,6 +18,7 @@ services:
             $uploadFilesystem: '@oneup_flysystem.upload_filesystem_filesystem'
             $uploadedAssetsBaseUrl: '%asset_base_url%'
             $uploadDirectory: '%upload_dir%'
+            $artistDir: '%artist_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
