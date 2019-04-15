@@ -2,20 +2,44 @@
 {% block stylesheets %}
 {{ parent() }}
 <style>   
-img { max-width: 100%}
+img { width: 100%}
+.grid-item {}
+.legend { margin:0.3em 0 0.8em 0; font-size: 0.8em;}
+.grid-item a { color: #888;}
 </style>
 {% endblock %}
 {% block body -%}
 <h1>{{ artist }}</h1>
-<div class="row">
+<div class="row grid">
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 grid-sizer"></div>
 {% for img in works %}
-<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+<div class="col-6 col-sm-4 col-md-3 col-lg-2 grid-item">
 <div class="thumbnail">
 <a href="{{ img.path | imagine_filter('full') }}"><img src="{{ img.path | imagine_filter('miniature') }}" alt="{{ img.filename }}">
 </div>
-<div class="legend">{{ title_asset(img.filename, 25) }}</div></a>
+<div class="legend invisible">{{ title_asset(img.filename, 25) }}</div></a>
 </div>
 {% endfor %}
 
 </div>
 {% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.js"></script>
+<script>
+var $grid = $('.grid').masonry({
+  columnWidth: '.grid-sizer',
+  itemSelector: '.grid-item',
+  percentPosition: true,
+  gutter: 0
+});
+$grid.imagesLoaded().progress( function() {
+  $grid.masonry('layout');
+});
+$grid.one( 'layoutComplete', function() {
+  $('.legend').removeClass('invisible');
+});
+</script>
+{% endblock %}
+
