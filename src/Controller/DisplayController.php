@@ -24,6 +24,19 @@ class DisplayController extends AbstractController
      */
     public function indexAction(Request $request, UploaderHelper $uploaderHelper)
     {
-        return array('images' => $uploaderHelper->getAllImages());
+        return array('artists' => $uploaderHelper->getArtistNameList());
+    }
+
+    /**
+     *
+     * @Route("/artist/{artist}", name="show_artist", methods={"GET"})
+     * @Template()
+     */
+    public function showArtistAction(string $artist, UploaderHelper $uploaderHelper)
+    {
+        return array(
+            'artist' => $artist,
+            'works' => $uploaderHelper->getAllImages($artist)
+        );
     }
 }

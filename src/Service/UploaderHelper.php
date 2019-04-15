@@ -14,8 +14,13 @@ class UploaderHelper
     private $uploadDir;
     private $artistDir;
 
-    public function __construct(FilesystemInterface $uploadFilesystem, RequestStackContext $requestStackContext, string $uploadDirectory, string $uploadedAssetsBaseUrl, string $artistDir)
-    {
+    public function __construct(
+        FilesystemInterface $uploadFilesystem,
+        RequestStackContext $requestStackContext,
+        string $uploadDirectory,
+        string $uploadedAssetsBaseUrl,
+        string $artistDir
+    ) {
         $this->filesystem = $uploadFilesystem;
         $this->requestStackContext = $requestStackContext;
         $this->uploadedAssetsBaseUrl = $uploadedAssetsBaseUrl;
@@ -25,8 +30,16 @@ class UploaderHelper
 
     public function moveUploadedImage(UploadedFile $uploadedFile): string
     {
+        $info = getimagesize($uploadedFile->getPathname());
+        $width = (int) $info[0];
+        $height = (int) $info[1];
+        $nameExtend = sprintf('_Z_%sx%s__U_%s_.', $width, $height, uniqid());
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-        $newFilename = $this->sanitizeName($originalFilename . '_U_' . uniqid() . '_.' . $uploadedFile->guessExtension());
+        $newFilename = $this->sanitizeName(
+            $originalFilename .
+            $nameExtend .
+            $uploadedFile->guessExtension()
+        );
         $stream = fopen($uploadedFile->getPathname(), 'r');
         $result = $this->filesystem->writeStream(
             $this->uploadDir . '/' . $newFilename,
@@ -80,7 +93,11 @@ class UploaderHelper
 
     public function getAllImages(string $directory = '') : array
     {
-        $all = $this->filesystem->listContents($this->artistDir, true);
+        $dir = $this->artistDir;
+        if (!empty($directory)) {
+            $dir .= '/'.$directory;
+        }
+        $all = $this->filesystem->listContents($dir, true);
         $images = array();
         foreach ($all as $file) {
             if ($file['type'] == 'file' && \preg_match('/(jpe?g|png|gif)$/i', $file['extension'])) {
@@ -104,7 +121,6 @@ class UploaderHelper
 
     public function getUploadedImageToProcess() : ?array
     {
-        
         $list = $this->filesystem->listContents($this->uploadDir, false);
         foreach ($list as $file) {
             if (strpos($this->filesystem->getMimetype($file['path']), 'image') === 0) {
@@ -121,6 +137,21 @@ class UploaderHelper
         foreach ($dirs as $dir) {
             if ($dir['type'] == 'dir') {
                 $list[$dir['filename']] = $dir['filename'];
+            }
+        }
+        return $list;
+    }
+
+    public function getArtistNameList()
+    {
+        $list = array();
+        $dirs = $this->filesystem->listContents($this->artistDir, false);
+        foreach ($dirs as $dir) {
+            if ($dir['type'] == 'dir') {
+                $list[$dir['filename']] =
+                    (\preg_match('/([^,]+),(.*)/', $dir['filename'], $matches)) ?
+                    $matches[1] :
+                    $dir['filename'];
             }
         }
         return $list;

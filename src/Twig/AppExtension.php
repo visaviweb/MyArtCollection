@@ -7,6 +7,7 @@ use Psr\Container\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use App\Service\UploaderHelper;
+use App\Service\FileNamingHelper;
 
 class AppExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
@@ -19,10 +20,18 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
     {
         return [
             new TwigFunction('uploaded_asset', [$this, 'getUploadedAssetPath']),
-            new TwigFunction('archived_asset', [$this, 'getArchivedAssetPath'])
+            new TwigFunction('archived_asset', [$this, 'getArchivedAssetPath']),
+            new TwigFunction('title_asset', [$this, 'getTitleInName']),
         ];
     }
     
+    public function getTitleInName(string $name, int $length): string
+    {
+        return $this->container
+            ->get(FileNamingHelper::class)
+            ->getTitleInName($name, $length);
+    }
+
     public function getUploadedAssetPath(string $path): string
     {
         return $this->container
@@ -41,6 +50,7 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
     {
         return [
             UploaderHelper::class,
+            FileNamingHelper::class
         ];
     }
 }

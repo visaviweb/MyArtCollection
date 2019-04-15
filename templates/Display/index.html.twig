@@ -2,9 +2,7 @@
 
 {% block body -%}
 <p><a href="{{ path('upload') }}">Upload!</a></p>
-{% for img in images %}
-<a href="{{ archived_asset(img.path) }}">
-<img src="{{ img.path | imagine_filter('miniature') }}" alt="" style="float:left;margin:15px 15px 0;">
-</a>
+{% for artist, artistname in artists %}
+<a href="{{ path('show_artist', { 'artist' : artist }) }}">{{ artistname }}</a>
 {% endfor %}
 {% endblock %}
