@@ -22,14 +22,15 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
             new TwigFunction('uploaded_asset', [$this, 'getUploadedAssetPath']),
             new TwigFunction('archived_asset', [$this, 'getArchivedAssetPath']),
             new TwigFunction('title_asset', [$this, 'getTitleInName']),
+            new TwigFunction('short_name_asset', [$this, 'getClassformArtistName']),
         ];
     }
     
-    public function getTitleInName(string $name, int $length): string
+    public function getTitleInName(string $filename, int $length): string
     {
         return $this->container
             ->get(FileNamingHelper::class)
-            ->getTitleInName($name, $length);
+            ->getTitleInFilename($filename, $length);
     }
 
     public function getUploadedAssetPath(string $path): string
@@ -46,6 +47,13 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
             ->getArchivedPublicPath($path);
     }
 
+    public function getClassformArtistName(string $name): string
+    {
+        return $this->container
+        ->get(FileNamingHelper::class)
+        ->getClassformArtistName($name);
+    }
+
     public static function getSubscribedServices()
     {
         return [
@@ -53,4 +61,5 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
             FileNamingHelper::class
         ];
     }
+
 }

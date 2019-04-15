@@ -110,13 +110,23 @@ class FileNamingHelper
         );
     }
 
-    public function getTitleInName(string $name, int $length = 0): string
+    public function getTitleInFilename(string $name, int $length = 0): string
     {
         $title = (preg_match('/^(.+_)?T_([^_]+)_/', $name, $matches)) ? $matches[2] : 'Untitled';
         if ($length > 0 && strlen($title) > $length) {
             $title = substr($title, 0, strpos($title, ' ', $length)).'...';
         }
         return $title;
+    }
+
+    public function getClassformArtistName(string $name, int $length = 0): string
+    {
+        if ($pos = strpos($name, ',')) {
+            $name = \substr($name, 0, $pos);
+        }
+        $name = \iconv("UTF-8", "ISO-8859-1//TRANSLIT", $name);
+        $name = \preg_replace('/([^a-z0-9])/i', '-', $name);
+        return \strtolower($name);
     }
 
     public function getDirectory(string $filename)

@@ -2,15 +2,32 @@
 {% block stylesheets %}
 {{ parent() }}
 <style>   
-img { width: 100%}
-.grid-item {}
-.legend { margin:0.3em 0 0.8em 0; font-size: 0.8em;}
-.grid-item a { color: #888;}
+body { 
+    background-color: #d4b2c9;
+    padding: 20px;
+}
+img { 
+    width: 100%
+}
+.thumbnail {
+    border: 3px solid #e4c2d9
+}
+.grid-item {
+}
+.legend { 
+    margin-bottom:30px; 
+    font-size: 0.8em;
+    background-color: #e4c2d9;
+    border: 3px solid #e4c2d9
+}
+.grid-item a { 
+    color: #888;
+}
 </style>
 {% endblock %}
 {% block body -%}
 <h1>{{ artist }}</h1>
-<div class="row grid">
+<div class="row grid {{ short_name_asset(artist) }}">
 <div class="col-6 col-sm-4 col-md-3 col-lg-2 grid-sizer"></div>
 {% for img in works %}
 <div class="col-6 col-sm-4 col-md-3 col-lg-2 grid-item">
