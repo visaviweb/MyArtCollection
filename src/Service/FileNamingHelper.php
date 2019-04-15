@@ -96,6 +96,7 @@ class FileNamingHelper
             $data['place'] = '';
         }
         $data['uniqid'] = $this->getUniqId($oldFilename);
+        $data['size'] = $this->getSize($oldFilename);
         return (
             'A_'.$data['artist'].'_'.
             'T_'.$data['title'].'_'.
@@ -103,9 +104,19 @@ class FileNamingHelper
             't_'.$data['technique'].'_'.
             'd_'.$data['dimensions'].'_'.
             'l_'.$data['place'].'_'.
+            'Z_'.$data['size'].'_.'.
             'U_'.$data['uniqid'].'_.'.
             $oldExtension
         );
+    }
+
+    public function getTitleInName(string $name, int $length = 0): string
+    {
+        $title = (preg_match('/^(.+_)?T_([^_]+)_/', $name, $matches)) ? $matches[2] : 'Untitled';
+        if ($length > 0 && strlen($title) > $length) {
+            $title = substr($title, 0, strpos($title, ' ', $length)).'...';
+        }
+        return $title;
     }
 
     public function getDirectory(string $filename)
@@ -121,5 +132,9 @@ class FileNamingHelper
     public function getUniqId(string $filename) : string
     {
         return (preg_match('/^.+_U_([^_]+)_$/i', $filename, $matches)) ? $matches[1] : uniqid();
+    }
+    public function getSize(string $filename) : string
+    {
+        return (preg_match('/^.+_Z_([^_]+)_/i', $filename, $matches)) ? $matches[1] : '';
     }
 }
