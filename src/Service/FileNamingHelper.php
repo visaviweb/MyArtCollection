@@ -99,8 +99,8 @@ class FileNamingHelper
         $data['size'] = $this->getSize($oldFilename);
         return (
             'A_'.$data['artist'].'_'.
-            'T_'.$data['title'].'_'.
             'D_'.$data['date'].'_'.
+            'T_'.$data['title'].'_'.
             't_'.$data['technique'].'_'.
             'd_'.$data['dimensions'].'_'.
             'l_'.$data['place'].'_'.
