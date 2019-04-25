@@ -2,39 +2,55 @@
 {% block stylesheets %}
 {{ parent() }}
 <style>   
-body { 
-    background-color: #d4b2c9;
-    padding: 20px;
+
+/* from: https://github.com/xieranmaya/blog/issues/6 */
+.grid {
+  display: flex;
+  flex-wrap: wrap;
 }
-img { 
-    width: 100%
+
+.grid::after {
+  content: '';
+  flex-grow: 1e4;
+  min-width: 20%;
 }
-.thumbnail {
-    border: 3px solid #e4c2d9
+
+.work {
+  margin: 10px;
+  position: relative;
 }
-.grid-item {
+
+.didascalia {
+  display: block;
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
 }
-.legend { 
-    margin-bottom:30px; 
-    font-size: 0.8em;
-    background-color: #e4c2d9;
-    border: 3px solid #e4c2d9
+.didascalia p {
+  padding-top: 5px;
+  margin: 0;
 }
-.grid-item a { 
-    color: #888;
+img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  vertical-align: bottom;
 }
 </style>
 {% endblock %}
 {% block body -%}
 <h1>{{ artist }}</h1>
 <div class="row grid {{ short_name_asset(artist) }}">
-<div class="col-6 col-sm-4 col-md-3 col-lg-2 grid-sizer"></div>
+{% set globalHeight = 150 %}
 {% for img in works %}
-<div class="col-6 col-sm-4 col-md-3 col-lg-2 grid-item">
-<div class="thumbnail">
-<a href="{{ img.path | imagine_filter('full') }}"><img src="{{ img.path | imagine_filter('miniature') }}" alt="{{ img.filename }}">
-</div>
-<div class="legend invisible">{{ title_asset(img.filename, 25) }}</div></a>
+{% set originalHeight = height_asset(img.filename) %}
+{% set originalWidth = width_asset(img.filename) %}
+{% set width = originalWidth*globalHeight/originalHeight %}
+<div style="width:{{ width }}px;flex-grow:{{ width }}" class="work">
+    <a href="{{ img.path | imagine_filter('full') }}"><img src="{{ img.path | imagine_filter('miniature') }}" alt=""></a>
+    <div class="didascalia" style="padding-top:{{ globalHeight/width*100}}%">
+    <p>{{ title_asset(img.filename, width/6.5) }}</p>
+    </div>
 </div>
 {% endfor %}
 
@@ -42,21 +58,5 @@ img {
 {% endblock %}
 {% block javascripts %}
 {{ parent() }}
-<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.js"></script>
-<script>
-var $grid = $('.grid').masonry({
-  columnWidth: '.grid-sizer',
-  itemSelector: '.grid-item',
-  percentPosition: true,
-  gutter: 0
-});
-$grid.imagesLoaded().progress( function() {
-  $grid.masonry('layout');
-});
-$grid.one( 'layoutComplete', function() {
-  $('.legend').removeClass('invisible');
-});
-</script>
 {% endblock %}
 

@@ -114,10 +114,20 @@ class FileNamingHelper
     {
         $title = (preg_match('/^(.+_)?T_([^_]+)_/', $name, $matches)) ? $matches[2] : 'Untitled';
         if ($length > 0 && strlen($title) > $length) {
-            $title = substr($title, 0, strpos($title, ' ', $length)).'...';
+            $title = substr($title, 0, $length).'...';
         }
         return $title;
     }
+
+    public function getWidthInFilename(string $name): string
+    {
+        return (preg_match('/^(.+_)?Z_([0-9]+)x/', $name, $matches)) ? $matches[2] : '0';
+    }
+    public function getHeightInFilename(string $name): string
+    {
+        return (preg_match('/^(.+_)?Z_[0-9]+x([0-9]+)_/', $name, $matches)) ? $matches[2] : '0';
+    }
+
 
     public function getClassformArtistName(string $name, int $length = 0): string
     {
