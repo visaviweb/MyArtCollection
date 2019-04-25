@@ -1,0 +1,42 @@
+@import '../../node_modules/normalize-css/normalize.css';
+
+
+body {
+    background-color: lightgray;
+}
+
+// display artwork list
+// from: https://github.com/xieranmaya/blog/issues/6 
+
+.work-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .work-list::after {
+    content: '';
+    flex-grow: 1e4;
+    min-width: 20%;
+  }
+  
+  .work {
+    margin: 10px;
+    position: relative;
+  }
+  
+  .didascalia {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+  }
+  .didascalia p {
+    padding-top: 5px;
+    margin: 0;
+  }
+  img {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    vertical-align: bottom;
+  }

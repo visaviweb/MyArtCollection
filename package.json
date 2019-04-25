@@ -1,0 +1,24 @@
+{
+  "name": "my-art-collection",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/visaviweb/MyArtCollection.git",
+  "author": "Olivier Wailly",
+  "license": "MIT",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.27.0",
+    "autoprefixer": "^9.5.1",
+    "jquery": "^3.4.0",
+    "node-sass": "^4.11.0",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.0.1",
+    "webpack-notifier": "^1.6.0"
+  },
+  "dependencies": {
+    "dropzone": "^5.5.1",
+    "normalize-css": "^2.3.1"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
+}

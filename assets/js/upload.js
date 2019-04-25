@@ -1,3 +1,9 @@
+import '../css/dropzone.scss';
+
+
+// window.Dropzone = require('../../node_modules/dropzone/dist/min/dropzone.min.js');
+
+import * as Dropzone from 'dropzone'; 
 
 Dropzone.autoDiscover = false;
 $(document).ready(function() {

@@ -17,8 +17,16 @@
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
-/public/upload/
 
 ###> liip/imagine-bundle ###
 /public/media/cache/
 ###< liip/imagine-bundle ###
+
+/public/upload/
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

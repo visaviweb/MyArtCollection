@@ -3,44 +3,11 @@
 {{ parent() }}
 <style>   
 
-/* from: https://github.com/xieranmaya/blog/issues/6 */
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.grid::after {
-  content: '';
-  flex-grow: 1e4;
-  min-width: 20%;
-}
-
-.work {
-  margin: 10px;
-  position: relative;
-}
-
-.didascalia {
-  display: block;
-  font-size: 11px;
-  color: #999;
-  font-style: italic;
-}
-.didascalia p {
-  padding-top: 5px;
-  margin: 0;
-}
-img {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  vertical-align: bottom;
-}
 </style>
 {% endblock %}
 {% block body -%}
 <h1>{{ artist }}</h1>
-<div class="row grid {{ short_name_asset(artist) }}">
+<div class=" work-list {{ short_name_asset(artist) }}">
 {% set globalHeight = 150 %}
 {% for img in works %}
 {% set originalHeight = height_asset(img.filename) %}
@@ -53,7 +20,6 @@ img {
     </div>
 </div>
 {% endfor %}
-
 </div>
 {% endblock %}
 {% block javascripts %}
