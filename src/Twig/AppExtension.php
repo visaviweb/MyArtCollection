@@ -21,13 +21,18 @@ class AppExtension extends AbstractExtension implements ServiceSubscriberInterfa
         return [
             new TwigFunction('uploaded_asset', [$this, 'getUploadedAssetPath']),
             new TwigFunction('archived_asset', [$this, 'getArchivedAssetPath']),
-            new TwigFunction('title_asset', [$this, 'getTitleInName']),
             new TwigFunction('short_name_asset', [$this, 'getClassformArtistName']),
-            new TwigFunction('height_asset', [$this, 'getHeight']),
-            new TwigFunction('width_asset', [$this, 'getWidth'])
+            new TwigFunction('artwork_info', [$this, 'getArtworkInfo'])
         ];
     }
-    
+
+    public function getArtworkInfo(string $filename): array
+    {
+        return $this->container
+            ->get(FileNamingHelper::class)
+            ->getArtworkInfoFromFilename($filename);
+    }
+
     public function getTitleInName(string $filename, int $length = 0): string
     {
         return $this->container

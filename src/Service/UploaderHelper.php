@@ -35,6 +35,8 @@ class UploaderHelper
         $height = (int) $info[1];
         $nameExtend = sprintf('_Z_%sx%s__U_%s_.', $width, $height, uniqid());
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $originalFilename = preg_replace('/_Z_([0-9]+)x([0-9]+)_/', '', $originalFilename);
+        $originalFilename = preg_replace('/_U_([0-9a-z]+)_/', '', $originalFilename);
         $newFilename = $this->sanitizeName(
             $originalFilename .
             $nameExtend .

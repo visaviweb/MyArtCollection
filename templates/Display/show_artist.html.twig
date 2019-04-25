@@ -10,13 +10,12 @@
 <div class=" work-list {{ short_name_asset(artist) }}">
 {% set globalHeight = 150 %}
 {% for img in works %}
-{% set originalHeight = height_asset(img.filename) %}
-{% set originalWidth = width_asset(img.filename) %}
-{% set width = originalWidth*globalHeight/originalHeight %}
+{% set info = artwork_info(img.filename) %}
+{% set width = info.width*globalHeight/info.height %}
 <div style="width:{{ width }}px;flex-grow:{{ width }}" class="work">
     <a href="{{ img.path | imagine_filter('full') }}"><img src="{{ img.path | imagine_filter('miniature') }}" alt=""></a>
     <div class="didascalia" style="padding-top:{{ globalHeight/width*100}}%">
-    <p>{{ title_asset(img.filename, width/6.5) }}</p>
+    <p>{{ info.title|truncate(width/6|round) }}</p>
     </div>
 </div>
 {% endfor %}

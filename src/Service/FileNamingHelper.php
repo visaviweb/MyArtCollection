@@ -69,6 +69,27 @@ class FileNamingHelper
         return array_map('trim', $data);
     }
 
+    public function getArtworkInfoFromFilename(string $filename) : array
+    {
+        // default data
+        $data = array(
+            'width' => 1,
+            'height' => 1
+        );
+        $data['title'] = (preg_match('/^(.+_)?T_([^_]+)_/', $filename, $matches)) ? $matches[2] : '';
+        $data['artist'] = (preg_match('/^(.+_)?A_([^_]+)_/', $filename, $matches)) ? $matches[2] : '';
+        $data['date'] = (preg_match('/^(.+_)?D_([^_]+)_/', $filename, $matches)) ? $matches[2] : '';
+        $data['technique'] = (preg_match('/^(.+_)?t_([^_]+)_/', $filename, $matches)) ? $matches[2] : '';
+        $data['dimensions'] = (preg_match('/^(.+_)?d_([^_]+)_/', $filename, $matches)) ? $matches[2] : '';
+        $data['place'] = (preg_match('/^(.+_)?l_([^_]+)_/', $filename, $matches)) ? $matches[2] : '';
+        
+        if (preg_match('/_Z_([0-9]+)x([0-9]+)_/', $filename, $matches)) {
+            $data['width'] = $matches[1];
+            $data['height'] = $matches[2];
+        }
+        return $data;
+    }
+
     public function buildFilename(string $oldFilename, string $oldExtension, array $data) : string
     {
         if (empty($data['artist'])) {
@@ -108,24 +129,6 @@ class FileNamingHelper
             'U_'.$data['uniqid'].'_.'.
             $oldExtension
         );
-    }
-
-    public function getTitleInFilename(string $name, int $length = 0): string
-    {
-        $title = (preg_match('/^(.+_)?T_([^_]+)_/', $name, $matches)) ? $matches[2] : 'Untitled';
-        if ($length > 0 && strlen($title) > $length) {
-            $title = substr($title, 0, $length).'...';
-        }
-        return $title;
-    }
-
-    public function getWidthInFilename(string $name): string
-    {
-        return (preg_match('/^(.+_)?Z_([0-9]+)x/', $name, $matches)) ? $matches[2] : '0';
-    }
-    public function getHeightInFilename(string $name): string
-    {
-        return (preg_match('/^(.+_)?Z_[0-9]+x([0-9]+)_/', $name, $matches)) ? $matches[2] : '0';
     }
 
 
