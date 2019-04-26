@@ -1,5 +1,8 @@
 @import '../../node_modules/normalize-css/normalize.css';
 
+* {
+  box-sizing: border-box;
+}
 
 body {
     background-color: lightgray;
@@ -25,18 +28,54 @@ body {
   }
   
   .didascalia {
-    display: block;
+    padding-top: 5px;
+    margin: 0;
     font-size: 11px;
     color: #999;
     font-style: italic;
   }
-  .didascalia p {
-    padding-top: 5px;
-    margin: 0;
-  }
-  img {
+
+  .work-image {
     position: absolute;
     top: 0;
     width: 100%;
     vertical-align: bottom;
+  }
+
+
+  // admin
+  .admin-img-sample {
+    width: 33%;
+    float: left;
+  }
+
+  .admin-form {
+    width: 66%;
+    float: right;
+  }
+
+  .form-group {
+    margin: 0.5em 0;
+    clear: both;
+  }
+
+  label {
+    float: left;
+    display: block;
+    width: 20%;
+  }
+
+  input[type="text"] {
+    width: 70%;
+  }
+
+  .form-check {
+    margin-left: 20%;
+  }
+
+  label.form-check-label {
+    display: inline;
+    float: none;
+    clear: none;
+    width: auto;
   }

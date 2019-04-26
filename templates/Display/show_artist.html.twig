@@ -6,16 +6,18 @@
 </style>
 {% endblock %}
 {% block body -%}
+<p><a href="{{ path('home') }}">Home</a> | <a href="{{ path('upload') }}">Upload!</a></p>
 <h1>{{ artist }}</h1>
+
 <div class=" work-list {{ short_name_asset(artist) }}">
 {% set globalHeight = 150 %}
 {% for img in works %}
 {% set info = artwork_info(img.filename) %}
 {% set width = info.width*globalHeight/info.height %}
 <div style="width:{{ width }}px;flex-grow:{{ width }}" class="work">
-    <a href="{{ img.path | imagine_filter('full') }}"><img src="{{ img.path | imagine_filter('miniature') }}" alt=""></a>
-    <div class="didascalia" style="padding-top:{{ globalHeight/width*100}}%">
-    <p>{{ info.title|truncate(width/6|round) }}</p>
+    <a href="{{ img.path | imagine_filter('full') }}"><img src="{{ img.path | imagine_filter('miniature') }}" title="{{ info.title|escape }} {{ info.date|escape }}" class="work-image"></a>
+    <div style="padding-top:{{ globalHeight/width*100}}%">
+    <p class="didascalia">{{ info.title|truncate(width/6|round) }}</p>
     </div>
 </div>
 {% endfor %}

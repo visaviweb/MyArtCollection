@@ -5,6 +5,7 @@
 {% endblock %}       
  
 {% block body -%}
+<p><a href="{{ path('home') }}">Home</a></p>
  <h1>Upload</h1>
  {% if has_unregistered_images %}
 <a href="{{ path('register') }}">You have unregistered uploaded images!</a>
