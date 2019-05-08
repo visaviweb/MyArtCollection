@@ -1,11 +1,11 @@
-@import '../../node_modules/normalize-css/normalize.css';
+@import '~normalize-css';
 
 * {
   box-sizing: border-box;
 }
 
 body {
-    background-color: lightgray;
+    background-color: lightblue;
 }
 
 // display artwork list

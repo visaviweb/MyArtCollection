@@ -1,7 +1,6 @@
 import '../css/dropzone.scss';
 
-
-// window.Dropzone = require('../../node_modules/dropzone/dist/min/dropzone.min.js');
+import $ from 'jquery';
 
 import * as Dropzone from 'dropzone'; 
 
